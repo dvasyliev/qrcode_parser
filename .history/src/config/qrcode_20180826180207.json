@@ -1,0 +1,122 @@
+[
+  {
+    "id": "00",
+    "length": "02",
+    "name": "payload_format_indicator"
+  },
+
+  {
+    "id": "01",
+    "length": "02",
+    "default": {
+      "11": "Static",
+      "12": "Dynamic"
+    },
+    "name": "point_of_initiation_method"
+  },
+
+  {
+    "id": "52",
+    "length": "04",
+    "name": "merchant_category_code"
+  },
+
+  {
+    "id": "53",
+    "length": "03",
+    "name": "transaction_currency"
+  },
+
+  {
+    "id": "54",
+    "length": {
+      "min": "01",
+      "max": "13"
+    },
+    "name": "transaction_amount"
+  },
+
+  {
+    "id": "58",
+    "length": "02",
+    "name": "country_code"
+  },
+
+  {
+    "id": "59",
+    "length": {
+      "min": "00",
+      "max": "75"
+    },
+    "name": "merchant_name"
+  },
+
+  {
+    "id": "60",
+    "length": {
+      "min": "01",
+      "max": "15"
+    },
+    "name": "merchant_city"
+  },
+
+  {
+    "id": "64",
+    "length": {
+      "min": "00",
+      "max": "99"
+    },
+    "name": "merchant_information",
+    "children": [
+      {
+        "id": "00",
+        "length": "02",
+        "name": "language_preference"
+      }
+    ]
+  },
+
+  {
+    "id": "80",
+    "length": {
+      "min": "00",
+      "max": "99"
+    },
+    "name": "qr_parameters_information",
+    "children": [
+      {
+        "id": "00",
+        "length": {
+          "min": "01",
+          "max": "32"
+        },
+        "name": "globally_unique_identifier"
+      }
+    ]
+  },
+
+  {
+    "id": "81",
+    "length": {
+      "min": "00",
+      "max": "99"
+    },
+    "name": "qr_parameters_lifetime",
+    "children": [
+      {
+        "id": "00",
+        "length": {
+          "min": "01",
+          "max": "32"
+        },
+        "name": "globally_unique_identifier"
+      }
+    ]
+  },
+
+  {
+    "id": "63",
+    "length": "04",
+    "name": "cyclic_redundancy_check"
+  }
+]
