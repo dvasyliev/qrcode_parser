@@ -13,8 +13,23 @@
 
           <p>QR-code Model:</p>
           <div
-            class="page__json"
-            v-html="qrcodeTransformedTree"/>
+            v-if="qrcode.length && isCorrectChecksum"
+            v-html="qrcodeModel"
+            class="page__json"/>
+
+          <el-alert
+            v-if="!qrcode.length"
+            title="Enter qrcode"
+            type="info"
+            show-icon
+            :closable="false"/>
+
+          <el-alert
+            v-else-if="!isCorrectChecksum"
+            title="Check sum not exist or not correct"
+            type="error"
+            show-icon
+            :closable="false"/>
         </div>
       </div>
     </div>
@@ -23,7 +38,7 @@
 
 <script>
 import htmlStringify from 'html-stringify'
-import { parse, getQrCodeModel } from '@/utils/qrcode'
+import { isCorrectChecksum, getQrCodeModel } from '@/utils/qrcode'
 
 export default {
   name: 'App',
@@ -35,16 +50,16 @@ export default {
   },
 
   computed: {
-    qrcodeParsed() {
-      return parse(this.qrcode, 2)
+    isCorrectChecksum() {
+      return isCorrectChecksum(this.qrcode)
     },
 
     qrcodeTransformed() {
-      return getQrCodeModel(this.qrcodeParsed)
+      return this.isCorrectChecksum ? getQrCodeModel(this.qrcode) : null
     },
 
-    qrcodeTransformedTree() {
-      return htmlStringify({ model: this.qrcodeTransformed })
+    qrcodeModel() {
+      return this.isCorrectChecksum ? htmlStringify({ model: this.qrcodeTransformed }) : ''
     }
   }
 }

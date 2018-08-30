@@ -12,6 +12,8 @@
     "deploy": "npm run build && gh-pages -d dist"
   },
   "dependencies": {
+    "crc-full": "^1.0.0",
+    "crc16": "^1.0.1",
     "element-ui": "^2.4.6",
     "gh-pages": "^1.2.0",
     "html-stringify": "^0.0.3",

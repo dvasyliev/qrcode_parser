@@ -1,4 +1,5 @@
 import _ from 'lodash'
+import { CRC } from 'crc-full'
 import definitions from '@/config/qrcode'
 
 const _isTwoDigits = (value) => {
@@ -7,6 +8,32 @@ const _isTwoDigits = (value) => {
 
 const _isValue = (value, length) => {
   return value.length && value.length === parseInt(length, 10)
+}
+
+const _getCRC = (qrcode) => {
+  const lastBlob = qrcode.slice(qrcode.length - 8, qrcode.length)
+  const id = lastBlob.slice(0, 2)
+  const length = lastBlob.slice(2, 4)
+  const value = lastBlob.slice(4, 8)
+
+  return (id === '63' && length === '04' && value.length === 4) ? value : null
+}
+
+const _calcCRC = (qrcode) => {
+  const string = qrcode.slice(0, -8)
+  const crc = new CRC('CRC16', 16, 0x1027, 0xFFFF)
+  const demical = crc.compute(Buffer.from(string, 'ascii'))
+  const hex = demical.toString(16).toUpperCase()
+
+  console.error('CRC should be equal: ', hex)
+
+  return hex
+}
+
+const isCorrectChecksum = (qrcode) => {
+  const crc = _getCRC(qrcode)
+
+  return crc ? crc === _calcCRC(qrcode) : false
 }
 
 const parseBlob = (string) => {
@@ -69,11 +96,12 @@ const transform = (definitions, fields) => {
   return model
 }
 
-const getQrCodeModel = (fields) => {
-  return transform(definitions, fields)
+const getQrCodeModel = (qrcode) => {
+  return transform(definitions, parse(qrcode, 2))
 }
 
 export {
+  isCorrectChecksum,
   parseBlob,
   parse,
   transform,
